@@ -1,915 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Alexey Savenko | Sound Designer Portfolio</title>
+  <meta
+    name="description"
+    content="Portfolio of Alexey Savenko, a sound designer creating game audio, sonic branding, and immersive soundscapes."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav>
+    <div class="logo">ALEXEY SAVENKO</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#works">Works</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <button class="btn-primary nav-hire-btn" type="button">Hire Me</button>
+  </nav>
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  :root {
-    --c1: #0a0a0a;
-    --c2: #111111;
-    --c3: #1a1a1a;
-    --accent: #00ff9d;
-    --accent2: #ff3c5c;
-    --accent3: #7c4dff;
-    --text: #f0f0f0;
-    --muted: #666;
-    --mono: 'Space Mono', monospace;
-    --sans: 'Syne', sans-serif;
-  }
-
-  body { background: var(--c1); color: var(--text); font-family: var(--sans); overflow-x: hidden; }
-
-  canvas { display: block; }
-
-  .section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
-
-  /* HEADER */
-  header {
-    position: relative;
-    height: 100vh;
-    min-height: 600px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    overflow: hidden;
-    background: var(--c1);
-  }
-
-  #waveCanvas {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-  }
-
-  .header-content {
-    position: relative;
-    z-index: 2;
-    padding: 3rem 3rem 4rem;
-  }
-
-  .tag {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .tag::before { content: ''; display: block; width: 30px; height: 1px; background: var(--accent); }
-
-  h1 {
-    font-family: var(--sans);
-    font-size: clamp(3rem, 8vw, 7rem);
-    font-weight: 800;
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    margin-bottom: 2rem;
-  }
-
-  h1 .outline { -webkit-text-stroke: 1px var(--text); color: transparent; }
-  h1 .accent-word { color: var(--accent); }
-
-  .header-desc {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--muted);
-    max-width: 420px;
-    line-height: 1.8;
-    margin-bottom: 2.5rem;
-  }
-
-  .header-stats {
-    display: flex;
-    gap: 3rem;
-    margin-bottom: 2.5rem;
-  }
-  .stat { text-align: left; }
-  .stat-num {
-    font-family: var(--sans);
-    font-size: 2rem;
-    font-weight: 800;
-    color: var(--accent);
-    line-height: 1;
-  }
-  .stat-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-
-  .cta-row { display: flex; gap: 1rem; align-items: center; }
-  .btn-primary {
-    background: var(--accent);
-    color: #000;
-    border: none;
-    padding: 0.9rem 2rem;
-    font-family: var(--mono);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    text-transform: uppercase;
-    transition: all 0.2s;
-  }
-  .btn-primary:hover { background: #fff; }
-  .btn-outline {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--muted);
-    padding: 0.9rem 2rem;
-    font-family: var(--mono);
-    font-size: 12px;
-    cursor: pointer;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: all 0.2s;
-  }
-  .btn-outline:hover { border-color: var(--text); }
-
-  .scroll-line {
-    position: absolute;
-    right: 3rem;
-    bottom: 4rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    z-index: 2;
-  }
-  .scroll-line span {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.25em;
-    color: var(--muted);
-    writing-mode: vertical-rl;
-    text-transform: uppercase;
-  }
-  .scroll-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.3;transform:scale(0.6)} }
-
-  /* NAV */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 1.5rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to bottom, rgba(10,10,10,0.9), transparent);
-  }
-  .logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-  .nav-links a {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
-
-  /* SECTION LABELS */
-  .section-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--accent);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent); opacity: 0.4; }
-
-  h2 {
-    font-family: var(--sans);
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 3rem;
-    line-height: 1.05;
-  }
-
-  /* ABOUT */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .about-visual {
-    position: relative;
-    height: 320px;
-    background: var(--c3);
-  }
-
-  #aboutWave { width: 100%; height: 100%; }
-
-  .about-text p {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.9;
-    margin-bottom: 1.5rem;
-  }
-
-  .skills-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 2rem;
-  }
-  .skill-tag {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--accent);
-    border: 1px solid rgba(0,255,157,0.25);
-    padding: 5px 12px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  /* VIDEO WORKS */
-  .works-bg {
-    background: var(--c2);
-    margin: 0 -2rem;
-    padding: 6rem 2rem;
-  }
-
-  .works-header {
-    max-width: 1100px;
-    margin: 0 auto 3rem;
-  }
-
-  .works-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-
-  .work-card {
-    position: relative;
-    overflow: hidden;
-    background: var(--c3);
-    cursor: pointer;
-    aspect-ratio: 16/10;
-  }
-
-  .work-card:first-child {
-    grid-column: span 2;
-    aspect-ratio: auto;
-    min-height: 320px;
-  }
-
-  .work-thumb {
-    width: 100%; height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .work-wave-canvas {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-  }
-
-  .work-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.7);
-    opacity: 0;
-    transition: opacity 0.3s;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.5rem;
-    z-index: 2;
-  }
-  .work-card:hover .work-overlay { opacity: 1; }
-
-  .play-btn {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 56px;
-    height: 56px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 3;
-    transition: all 0.3s;
-  }
-  .work-card:hover .play-btn {
-    border-color: var(--accent);
-    background: rgba(0,255,157,0.1);
-  }
-  .play-icon {
-    width: 0;
-    height: 0;
-    border-top: 9px solid transparent;
-    border-bottom: 9px solid transparent;
-    border-left: 16px solid rgba(255,255,255,0.8);
-    margin-left: 4px;
-    transition: border-left-color 0.3s;
-  }
-  .work-card:hover .play-icon { border-left-color: var(--accent); }
-
-  .work-type {
-    font-family: var(--mono);
-    font-size: 9px;
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-  }
-  .work-title {
-    font-family: var(--sans);
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #fff;
-    margin-bottom: 4px;
-  }
-  .work-meta {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: rgba(255,255,255,0.4);
-  }
-
-  /* SERVICES */
-  .services-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1px;
-    background: var(--c3);
-  }
-  .service-card {
-    background: var(--c1);
-    padding: 2.5rem;
-    position: relative;
-    overflow: hidden;
-    transition: background 0.3s;
-  }
-  .service-card:hover { background: var(--c3); }
-  .service-num {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    margin-bottom: 1.5rem;
-    opacity: 0.6;
-  }
-  .service-name {
-    font-family: var(--sans);
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--text);
-  }
-  .service-desc {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    line-height: 1.8;
-  }
-  .service-bar {
-    position: absolute;
-    top: 0; left: 0;
-    width: 3px;
-    height: 0;
-    background: var(--accent);
-    transition: height 0.4s ease;
-  }
-  .service-card:hover .service-bar { height: 100%; }
-
-  /* CLIENTS */
-  .clients-row {
-    display: flex;
-    align-items: center;
-    gap: 3rem;
-    flex-wrap: wrap;
-    padding: 3rem 0;
-    border-top: 1px solid var(--c3);
-    border-bottom: 1px solid var(--c3);
-  }
-  .client-logo {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    opacity: 0.5;
-    transition: opacity 0.2s;
-  }
-  .client-logo:hover { opacity: 1; color: var(--text); }
-
-  /* CONTACT */
-  .contact-bg {
-    background: var(--c2);
-    margin: 0 -2rem;
-    padding: 6rem 2rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  #contactWave {
-    position: absolute;
-    bottom: 0; left: 0;
-    width: 100%; height: 200px;
-    opacity: 0.15;
-  }
-
-  .contact-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    position: relative;
-    z-index: 1;
-  }
-
-  .contact-form input,
-  .contact-form textarea,
-  .contact-form select {
-    width: 100%;
-    background: var(--c3);
-    border: 1px solid rgba(255,255,255,0.07);
-    color: var(--text);
-    padding: 1rem;
-    font-family: var(--mono);
-    font-size: 12px;
-    margin-bottom: 1rem;
-    outline: none;
-    transition: border-color 0.2s;
-    resize: none;
-  }
-  .contact-form input:focus,
-  .contact-form textarea:focus { border-color: var(--accent); }
-  .contact-form input::placeholder,
-  .contact-form textarea::placeholder { color: var(--muted); }
-
-  .contact-form textarea { height: 120px; }
-
-  .contact-info p {
-    font-family: var(--mono);
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.9;
-    margin-bottom: 2rem;
-  }
-
-  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
-  .contact-link {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    font-family: var(--mono);
-    font-size: 12px;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .contact-link:hover { color: var(--accent); }
-  .link-icon {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(255,255,255,0.1);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    transition: border-color 0.2s;
-    flex-shrink: 0;
-  }
-  .contact-link:hover .link-icon { border-color: var(--accent); }
-
-  .contact-avail {
-    margin-top: 2.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .avail-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--accent);
-    animation: pulse 2s infinite;
-  }
-  .avail-text {
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-
-  footer {
-    padding: 2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid var(--c3);
-  }
-  .footer-copy {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-  }
-  .footer-soc { display: flex; gap: 1.5rem; }
-  .footer-soc a {
-    font-family: var(--mono);
-    font-size: 10px;
-    color: var(--muted);
-    text-decoration: none;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  .footer-soc a:hover { color: var(--accent); }
-
-  @media (max-width: 768px) {
-    .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
-    .works-grid { grid-template-columns: 1fr; }
-    .work-card:first-child { grid-column: span 1; min-height: 200px; }
-    .services-grid { grid-template-columns: 1fr; }
-    .header-stats { gap: 1.5rem; }
-    nav { padding: 1rem 1.5rem; }
-    .header-content { padding: 2rem 1.5rem 3rem; }
-    .nav-links { display: none; }
-  }
-</style>
-
-<nav>
-  <div class="logo">ALEXEY VOLKOV</div>
-  <ul class="nav-links">
-    <li><a href="#">About</a></li>
-    <li><a href="#">Works</a></li>
-    <li><a href="#">Services</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-  <button class="btn-primary" style="padding:0.6rem 1.5rem;font-size:10px;">Hire Me</button>
-</nav>
-
-<header>
-  <canvas id="waveCanvas"></canvas>
-  <div class="header-content">
-    <div class="tag">Sound Designer &amp; Composer</div>
-    <h1>
-      CRAFTING<br>
-      SONIC<br>
-      <span class="accent-word">WORLDS</span>
-    </h1>
-    <p class="header-desc">Film scores, game audio, UI sounds &amp; immersive soundscapes that move people and define brand identity.</p>
-    <div class="header-stats">
-      <div class="stat"><div class="stat-num">120+</div><div class="stat-label">Projects</div></div>
-      <div class="stat"><div class="stat-num">8</div><div class="stat-label">Years Exp</div></div>
-      <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Clients</div></div>
+  <header>
+    <canvas id="waveCanvas"></canvas>
+    <div class="header-content">
+      <div class="tag">Sound Designer &amp;</div>
+      <h1>
+        CRAFTING<br>
+        SONIC<br>
+        <span class="accent-word">WORLDS</span>
+      </h1>
+      <p class="header-desc">Game audio, UI sounds, Advertising &amp; immersive soundscapes that move people and define brand identity.</p>
+      <div class="header-stats">
+        <div class="stat"><div class="stat-num">120+</div><div class="stat-label">Projects</div></div>
+        <div class="stat"><div class="stat-num">8</div><div class="stat-label">Years Exp</div></div>
+        <div class="stat"><div class="stat-num">40+</div><div class="stat-label">Clients</div></div>
+      </div>
+      <div class="cta-row">
+        <a class="btn-primary btn-link" href="#works">View Works</a>
+        <button
+          class="btn-outline"
+          id="playReelBtn"
+          type="button"
+          data-video-url="https://vimeo.com/770788537?fl=pl&fe=sh"
+          data-video-title="Showreel"
+        >
+          Play Reel
+        </button>
+      </div>
     </div>
-    <div class="cta-row">
-      <button class="btn-primary">View Works</button>
-      <button class="btn-outline">Play Reel</button>
+    <div class="scroll-line">
+      <span>Scroll</span>
+      <div class="scroll-dot"></div>
     </div>
-  </div>
-  <div class="scroll-line">
-    <span>Scroll</span>
-    <div class="scroll-dot"></div>
-  </div>
-</header>
+  </header>
 
-<!-- ABOUT -->
-<div class="section">
-  <div class="about-grid">
-    <div class="about-visual">
-      <canvas id="aboutWave"></canvas>
+  <main>
+    <section class="section" id="about">
+      <div class="about-grid">
+        <div class="about-visual">
+          <canvas id="aboutWave"></canvas>
+        </div>
+        <div class="about-text">
+          <div class="section-label">About</div>
+          <h2>Sound is the<br><em class="accent-emphasis">emotion</em><br>architecture</h2>
+          <p>I'm Alexey, a Perm-based sound designer with 5 years of experience in game audio, advertising, and interactive media. I believe every visual needs its sonic counterpart.</p>
+          <p>From Foley and atmosphere to full audio worlds, I work at the intersection of technology and emotion to create sound that feels inevitable.</p>
+          <div class="skills-list">
+            <span class="skill-tag">Wwise</span>
+            <span class="skill-tag">FMOD</span>
+            <span class="skill-tag">Synthesis</span>
+            <span class="skill-tag">Foley</span>
+            <span class="skill-tag">Recordings</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="works-bg" id="works">
+      <div class="works-header">
+        <div class="section-label">Selected Works</div>
+        <h2>Recent <span class="accent-text">Projects</span></h2>
+      </div>
+      <div class="works-grid">
+        <article class="work-card">
+          <div class="work-thumb">
+            <canvas class="work-wave-canvas" id="ww1"></canvas>
+          </div>
+          <button
+            class="play-btn"
+            type="button"
+            aria-label="Play IL2 Korea Guns / Sound Design"
+            data-video-url="https://youtu.be/Fx3xJza_7Z4?si=2J_36X1j_xPR7QMC"
+            data-video-title="IL2 Korea Guns / Sound Design"
+          >
+            <div class="play-icon"></div>
+          </button>
+          <div class="work-overlay">
+            <div class="work-type">Ingame Audio</div>
+            <div class="work-title">IL2 Korea Guns / Sound Design</div>
+            <div class="work-meta">2026</div>
+          </div>
+        </article>
+        <article class="work-card">
+          <div class="work-thumb">
+            <canvas class="work-wave-canvas" id="ww2"></canvas>
+          </div>
+          <button
+            class="play-btn"
+            type="button"
+            aria-label="Play Void Protocol video"
+            data-video-url=""
+            data-video-title="Void Protocol"
+          >
+            <div class="play-icon"></div>
+          </button>
+          <div class="work-overlay">
+            <div class="work-type">Game Audio</div>
+            <div class="work-title">Void Protocol</div>
+            <div class="work-meta">Adaptive Music · 2024</div>
+          </div>
+        </article>
+        <article class="work-card">
+          <div class="work-thumb">
+            <canvas class="work-wave-canvas" id="ww3"></canvas>
+          </div>
+          <button
+            class="play-btn"
+            type="button"
+            aria-label="Play Yandex Sound Brand video"
+            data-video-url="https://youtu.be/jgQE1FUFbNg"
+            data-video-title="Yandex Sound Brand"
+          >
+            <div class="play-icon"></div>
+          </button>
+          <div class="work-overlay">
+            <div class="work-type">Brand Identity</div>
+            <div class="work-title">Yandex Sound Brand</div>
+            <div class="work-meta">UI Sounds · Sonic Logo · 2023</div>
+          </div>
+        </article>
+        <article class="work-card">
+          <div class="work-thumb">
+            <canvas class="work-wave-canvas" id="ww4"></canvas>
+          </div>
+          <button
+            class="play-btn"
+            type="button"
+            aria-label="Play Fragments video"
+            data-video-url=""
+            data-video-title="Fragments"
+          >
+            <div class="play-icon"></div>
+          </button>
+          <div class="work-overlay">
+            <div class="work-type">Short Film</div>
+            <div class="work-title">Fragments</div>
+            <div class="work-meta">Sound Design + Score · 2023</div>
+          </div>
+        </article>
+        <article class="work-card">
+          <div class="work-thumb">
+            <canvas class="work-wave-canvas" id="ww5"></canvas>
+          </div>
+          <button
+            class="play-btn"
+            type="button"
+            aria-label="Play Resonance Field video"
+            data-video-url=""
+            data-video-title="Resonance Field"
+          >
+            <div class="play-icon"></div>
+          </button>
+          <div class="work-overlay">
+            <div class="work-type">Installation</div>
+            <div class="work-title">Resonance Field</div>
+            <div class="work-meta">Generative Audio · Artplay 2023</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-label">Services</div>
+      <h2>What I <span class="accent-text">Create</span></h2>
+      <div class="services-grid">
+        <article class="service-card">
+          <div class="service-bar"></div>
+          <div class="service-num">01</div>
+          <div class="service-name">Film &amp; TV Scoring</div>
+          <div class="service-desc">Original music and sound design for narrative content, from indie shorts to feature films and streaming series.</div>
+        </article>
+        <article class="service-card">
+          <div class="service-bar"></div>
+          <div class="service-num">02</div>
+          <div class="service-name">Game Audio</div>
+          <div class="service-desc">Adaptive music systems, UI sounds, ambient layers and creature voices. Wwise, FMOD, Unity Audio.</div>
+        </article>
+        <article class="service-card">
+          <div class="service-bar"></div>
+          <div class="service-num">03</div>
+          <div class="service-name">Sonic Branding</div>
+          <div class="service-desc">Sonic logos, UI sound kits, and audio identity systems that make brands instantly recognizable.</div>
+        </article>
+        <article class="service-card">
+          <div class="service-bar"></div>
+          <div class="service-num">04</div>
+          <div class="service-name">Spatial &amp; Immersive</div>
+          <div class="service-desc">Dolby Atmos, binaural, and ambisonics for VR/AR experiences and installation art.</div>
+        </article>
+        <article class="service-card">
+          <div class="service-bar"></div>
+          <div class="service-num">05</div>
+          <div class="service-name">Advertising</div>
+          <div class="service-desc">Tight deadlines, big impact. Music and sound for broadcast, digital, and social campaigns.</div>
+        </article>
+        <article class="service-card">
+          <div class="service-bar"></div>
+          <div class="service-num">06</div>
+          <div class="service-name">Audio Post</div>
+          <div class="service-desc">Dialogue editing, ADR, Foley, mixing and mastering for any format and delivery spec.</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section-trusted">
+      <div class="section-label">Trusted By</div>
+      <div class="clients-row">
+        <div class="client-logo">Yandex</div>
+        <div class="client-logo">Kinopoisk</div>
+        <div class="client-logo">VK Play</div>
+        <div class="client-logo">Sber</div>
+        <div class="client-logo">Artplay</div>
+        <div class="client-logo">CTC Media</div>
+        <div class="client-logo">TNT</div>
+      </div>
+    </section>
+
+    <section class="contact-bg" id="contact">
+      <canvas id="contactWave"></canvas>
+      <div class="contact-inner">
+        <div class="contact-info">
+          <div class="section-label">Contact</div>
+          <h2>Let's make<br>something<br><span class="accent-text">Loud</span></h2>
+          <p>Open to new projects, commissions and collaborations. Drop me a message, I reply within 24 hours.</p>
+          <div class="contact-avail">
+            <div class="avail-dot"></div>
+            <span class="avail-text">Available for projects</span>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:savenkoalex0@gmail.com" class="contact-link"><div class="link-icon">✉</div>alex@volkovsound.ru</a>
+            <a href="tel:+79160000000" class="contact-link"><div class="link-icon">☎</div>+7 (916) 000-0000</a>
+            <a href="https://linkedin.com/in/volkovsound" class="contact-link" target="_blank" rel="noreferrer"><div class="link-icon">in</div>linkedin.com/in/volkovsound</a>
+            <a href="https://soundcloud.com/alexeyvolkov" class="contact-link" target="_blank" rel="noreferrer"><div class="link-icon">▶</div>soundcloud.com/alexeyvolkov</a>
+          </div>
+        </div>
+        <form class="contact-form">
+          <input type="text" placeholder="Your name" aria-label="Your name">
+          <input type="email" placeholder="Email address" aria-label="Email address">
+          <select class="contact-select" aria-label="Project type">
+            <option>Project type</option>
+            <option>Game Audio</option>
+            <option>Sonic Branding</option>
+            <option>Other</option>
+          </select>
+          <textarea placeholder="Tell me about your project..." aria-label="Tell me about your project"></textarea>
+          <button class="btn-primary contact-submit" type="submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-copy">© 2026 Alexey Savenko | Sound Designer</div>
+    <div class="footer-soc">
+      <a href="#">SoundCloud</a>
+      <a href="#">Instagram</a>
+      <a href="#">YouTube</a>
+      <a href="#">Telegram</a>
     </div>
-    <div class="about-text">
-      <div class="section-label">About</div>
-      <h2>Sound is the<br><em style="font-style:normal;color:var(--accent)">emotion</em><br>architecture</h2>
-      <p>I'm Alexey — a Moscow-based sound designer with 8 years of experience in film, advertising, and interactive media. I believe every visual needs its sonic counterpart.</p>
-      <p>From Foley and atmosphere to full orchestral scoring, I work at the intersection of technology and musicality to create audio that feels inevitable.</p>
-      <div class="skills-list">
-        <span class="skill-tag">Pro Tools</span>
-        <span class="skill-tag">Ableton Live</span>
-        <span class="skill-tag">Reaktor</span>
-        <span class="skill-tag">Max/MSP</span>
-        <span class="skill-tag">Foley</span>
-        <span class="skill-tag">Dolby Atmos</span>
-        <span class="skill-tag">Spatial Audio</span>
-        <span class="skill-tag">Game Audio</span>
+  </footer>
+
+  <div class="video-modal" id="videoModal" aria-hidden="true">
+    <div class="video-modal__backdrop" data-close-video-modal></div>
+    <div class="video-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="videoModalTitle">
+      <button class="video-modal__close" type="button" aria-label="Close video" data-close-video-modal>
+        ×
+      </button>
+      <div class="video-modal__header">
+        <p class="video-modal__eyebrow">Video</p>
+        <h3 class="video-modal__title" id="videoModalTitle">Project video</h3>
+      </div>
+      <div class="video-modal__frame">
+        <iframe
+          id="videoModalFrame"
+          src=""
+          title="YouTube video player"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
       </div>
     </div>
   </div>
-</div>
 
-<!-- WORKS -->
-<div class="works-bg">
-  <div class="works-header">
-    <div class="section-label">Selected Works</div>
-    <h2>Recent <span style="color:var(--accent)">Projects</span></h2>
-  </div>
-  <div class="works-grid">
-    <div class="work-card">
-      <div class="work-thumb">
-        <canvas class="work-wave-canvas" id="ww1"></canvas>
-      </div>
-      <div class="play-btn"><div class="play-icon"></div></div>
-      <div class="work-overlay">
-        <div class="work-type">Feature Film</div>
-        <div class="work-title">Тишина / Silence</div>
-        <div class="work-meta">Original Score · 2024 · 94 min</div>
-      </div>
-    </div>
-    <div class="work-card">
-      <div class="work-thumb">
-        <canvas class="work-wave-canvas" id="ww2"></canvas>
-      </div>
-      <div class="play-btn"><div class="play-icon"></div></div>
-      <div class="work-overlay">
-        <div class="work-type">Game Audio</div>
-        <div class="work-title">Void Protocol</div>
-        <div class="work-meta">Adaptive Music · 2024</div>
-      </div>
-    </div>
-    <div class="work-card">
-      <div class="work-thumb">
-        <canvas class="work-wave-canvas" id="ww3"></canvas>
-      </div>
-      <div class="play-btn"><div class="play-icon"></div></div>
-      <div class="work-overlay">
-        <div class="work-type">Brand Identity</div>
-        <div class="work-title">Yandex Sound Brand</div>
-        <div class="work-meta">UI Sounds · Sonic Logo · 2023</div>
-      </div>
-    </div>
-    <div class="work-card">
-      <div class="work-thumb">
-        <canvas class="work-wave-canvas" id="ww4"></canvas>
-      </div>
-      <div class="play-btn"><div class="play-icon"></div></div>
-      <div class="work-overlay">
-        <div class="work-type">Short Film</div>
-        <div class="work-title">Fragments</div>
-        <div class="work-meta">Sound Design + Score · 2023</div>
-      </div>
-    </div>
-    <div class="work-card">
-      <div class="work-thumb">
-        <canvas class="work-wave-canvas" id="ww5"></canvas>
-      </div>
-      <div class="play-btn"><div class="play-icon"></div></div>
-      <div class="work-overlay">
-        <div class="work-type">Installation</div>
-        <div class="work-title">Resonance Field</div>
-        <div class="work-meta">Generative Audio · Artplay 2023</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- SERVICES -->
-<div class="section">
-  <div class="section-label">Services</div>
-  <h2>What I <span style="color:var(--accent)">Create</span></h2>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-bar"></div>
-      <div class="service-num">01</div>
-      <div class="service-name">Film &amp; TV Scoring</div>
-      <div class="service-desc">Original music and sound design for narrative content — from indie shorts to feature films and streaming series.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-bar"></div>
-      <div class="service-num">02</div>
-      <div class="service-name">Game Audio</div>
-      <div class="service-desc">Adaptive music systems, UI sounds, ambient layers and creature voices. Wwise, FMOD, Unity Audio.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-bar"></div>
-      <div class="service-num">03</div>
-      <div class="service-name">Sonic Branding</div>
-      <div class="service-desc">Sonic logos, UI sound kits, and audio identity systems that make brands instantly recognizable.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-bar"></div>
-      <div class="service-num">04</div>
-      <div class="service-name">Spatial &amp; Immersive</div>
-      <div class="service-desc">Dolby Atmos, binaural, and ambisonics for VR/AR experiences and installation art.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-bar"></div>
-      <div class="service-num">05</div>
-      <div class="service-name">Advertising</div>
-      <div class="service-desc">Tight deadlines, big impact. Music and sound for broadcast, digital, and social campaigns.</div>
-    </div>
-    <div class="service-card">
-      <div class="service-bar"></div>
-      <div class="service-num">06</div>
-      <div class="service-name">Audio Post</div>
-      <div class="service-desc">Dialogue editing, ADR, Foley, mixing and mastering for any format and delivery spec.</div>
-    </div>
-  </div>
-</div>
-
-<!-- CLIENTS -->
-<div class="section" style="padding-top:0">
-  <div class="section-label">Trusted By</div>
-  <div class="clients-row">
-    <div class="client-logo">Yandex</div>
-    <div class="client-logo">Kinopoisk</div>
-    <div class="client-logo">VK Play</div>
-    <div class="client-logo">Sber</div>
-    <div class="client-logo">Artplay</div>
-    <div class="client-logo">CTC Media</div>
-    <div class="client-logo">TNT</div>
-  </div>
-</div>
-
-<!-- CONTACT -->
-<div class="contact-bg">
-  <canvas id="contactWave"></canvas>
-  <div class="contact-inner">
-    <div class="contact-info">
-      <div class="section-label">Contact</div>
-      <h2>Let's make<br>something<br><span style="color:var(--accent)">Loud</span></h2>
-      <p>Open to new projects, commissions and collaborations. Drop me a message — I reply within 24 hours.</p>
-      <div class="contact-avail">
-        <div class="avail-dot"></div>
-        <span class="avail-text">Available for projects</span>
-      </div>
-      <div class="contact-links" style="margin-top:2.5rem">
-        <a href="#" class="contact-link"><div class="link-icon">✉</div>alex@volkovsound.ru</a>
-        <a href="#" class="contact-link"><div class="link-icon">☎</div>+7 (916) 000-0000</a>
-        <a href="#" class="contact-link"><div class="link-icon">in</div>linkedin.com/in/volkovsound</a>
-        <a href="#" class="contact-link"><div class="link-icon">▶</div>soundcloud.com/alexeyvolkov</a>
-      </div>
-    </div>
-    <div class="contact-form">
-      <input type="text" placeholder="Your name">
-      <input type="email" placeholder="Email address">
-      <select style="background:var(--c3);border:1px solid rgba(255,255,255,0.07);color:var(--muted);padding:1rem;font-family:var(--mono);font-size:12px;width:100%;margin-bottom:1rem;outline:none;appearance:none;">
-        <option>Project type</option>
-        <option>Film / TV Scoring</option>
-        <option>Game Audio</option>
-        <option>Sonic Branding</option>
-        <option>Spatial Audio</option>
-        <option>Other</option>
-      </select>
-      <textarea placeholder="Tell me about your project..."></textarea>
-      <button class="btn-primary" style="width:100%;padding:1.1rem">Send Message</button>
-    </div>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-copy">© 2024 Alexey Volkov — Sound Designer</div>
-  <div class="footer-soc">
-    <a href="#">SoundCloud</a>
-    <a href="#">Instagram</a>
-    <a href="#">YouTube</a>
-    <a href="#">Telegram</a>
-  </div>
-</footer>
-
-<script>
-const PI2 = Math.PI * 2;
-
-function drawAnimatedWave(canvas, opts) {
-  const ctx = canvas.getContext('2d');
-  let t = 0;
-  const o = Object.assign({
-    waves: 3, speed: 0.008, amp: 40, freq: 0.012,
-    colors: ['#00ff9d', '#7c4dff', '#ff3c5c'],
-    bg: null, alpha: 0.6, thick: 1.5, vertical: false,
-    barMode: false, barCount: 80, mirror: false
-  }, opts);
-
-  function resize() {
-    canvas.width = canvas.offsetWidth || canvas.clientWidth || 400;
-    canvas.height = canvas.offsetHeight || canvas.clientHeight || 200;
-  }
-  resize();
-
-  function frame() {
-    const w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-    if (o.bg) { ctx.fillStyle = o.bg; ctx.fillRect(0,0,w,h); }
-
-    if (o.barMode) {
-      const bw = w / o.barCount;
-      for (let i = 0; i < o.barCount; i++) {
-        const v = Math.sin(i * 0.18 + t * 3) * Math.sin(i * 0.07 + t * 1.5);
-        const bh = (Math.abs(v) * 0.5 + 0.05) * h * 0.8;
-        const x = i * bw;
-        const ci = i % o.colors.length;
-        const grad = ctx.createLinearGradient(0, h/2 - bh/2, 0, h/2 + bh/2);
-        grad.addColorStop(0, o.colors[ci] + '00');
-        grad.addColorStop(0.5, o.colors[ci] + 'cc');
-        grad.addColorStop(1, o.colors[ci] + '00');
-        ctx.fillStyle = grad;
-        ctx.fillRect(x + bw*0.15, h/2 - bh/2, bw * 0.7, bh);
-      }
-    } else {
-      for (let wi = 0; wi < o.waves; wi++) {
-        ctx.beginPath();
-        const phase = (wi / o.waves) * PI2;
-        const amp = o.amp * (1 - wi * 0.2);
-        const cy = h / 2 + (wi - o.waves/2) * (h * 0.05);
-        for (let x = 0; x <= w; x += 2) {
-          const y = cy +
-            Math.sin(x * o.freq + t + phase) * amp +
-            Math.sin(x * o.freq * 2.1 + t * 1.3 + phase) * amp * 0.4;
-          x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-        }
-        if (o.mirror) {
-          ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
-          const grad = ctx.createLinearGradient(0, 0, 0, h);
-          grad.addColorStop(0, o.colors[wi % o.colors.length] + '40');
-          grad.addColorStop(1, 'transparent');
-          ctx.fillStyle = grad;
-          ctx.fill();
-        }
-        ctx.strokeStyle = o.colors[wi % o.colors.length];
-        ctx.globalAlpha = o.alpha - wi * 0.15;
-        ctx.lineWidth = o.thick - wi * 0.3;
-        ctx.stroke();
-        ctx.globalAlpha = 1;
-      }
-    }
-    t += o.speed;
-    requestAnimationFrame(frame);
-  }
-  frame();
-  window.addEventListener('resize', resize);
-}
-
-// Header wave — dramatic
-const hc = document.getElementById('waveCanvas');
-hc.width = window.innerWidth; hc.height = window.innerHeight;
-window.addEventListener('resize', ()=>{ hc.width=window.innerWidth; hc.height=window.innerHeight; });
-drawAnimatedWave(hc, {
-  waves: 5, amp: 70, freq: 0.006, speed: 0.006, thick: 1.2, alpha: 0.35,
-  colors: ['#00ff9d','#7c4dff','#ff3c5c','#00cfff','#ffb300'],
-  mirror: true
-});
-
-// About wave — bar visualizer
-drawAnimatedWave(document.getElementById('aboutWave'), {
-  barMode: true, barCount: 60, bg: '#1a1a1a',
-  colors: ['#00ff9d','#7c4dff','#ff3c5c'], alpha: 1
-});
-
-// Work cards
-const workConfigs = [
-  { colors: ['#00ff9d','#00cfff'], amp: 50, freq: 0.008, waves: 4, bg: '#0d1f1a', barMode:false },
-  { colors: ['#7c4dff','#ff3c5c'], amp: 35, freq: 0.015, waves: 3, bg: '#150d20', barMode:false },
-  { colors: ['#ff9d00','#ff3c5c'], amp: 25, freq: 0.02, waves: 2, bg: '#1f1200', barMode:false },
-  { colors: ['#00cfff','#7c4dff'], barMode: true, barCount: 40, bg: '#0d1520' },
-  { colors: ['#00ff9d','#00cfff','#7c4dff'], barMode: true, barCount: 50, bg: '#101f18' }
-];
-for (let i = 1; i <= 5; i++) {
-  const c = document.getElementById('ww' + i);
-  if (c) {
-    c.width = c.offsetWidth || 400;
-    c.height = c.offsetHeight || 200;
-    drawAnimatedWave(c, workConfigs[i-1]);
-  }
-}
-
-// Contact wave
-const cc = document.getElementById('contactWave');
-drawAnimatedWave(cc, {
-  waves: 4, amp: 35, freq: 0.005, speed: 0.004, thick: 1, alpha: 0.5,
-  colors: ['#00ff9d','#7c4dff','#ff3c5c','#00cfff'], mirror: false
-});
-</script>
+  <script src="script.js"></script>
+</body>
+</html>
